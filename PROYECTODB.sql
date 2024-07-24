@@ -345,6 +345,30 @@ BEGIN
 END;
 
 --LEER
+CREATE OR REPLACE VIEW LEER_CLIENTES AS
+SELECT ID_CLIENTE, IDENTIFICACION, NOMBRE_CLIENTE, PRIMER_APELLIDO, SEGUNDO_APELLIDO, DIRECCION_CLIENTE, CELULAR
+FROM CLIENTES;
+
+CREATE OR REPLACE PROCEDURE MOSTRAR_CLIENTES
+IS
+BEGIN
+    FOR v_cliente IN (SELECT * FROM LEER_CLIENTES) LOOP
+        DBMS_OUTPUT.PUT_LINE('ID: ' || v_cliente.ID_CLIENTE || 
+                             ', Identificación: ' || v_cliente.IDENTIFICACION || 
+                             ', Nombre: ' || v_cliente.NOMBRE_CLIENTE || 
+                             ', Primer Apellido: ' || v_cliente.PRIMER_APELLIDO || 
+                             ', Segundo Apellido: ' || v_cliente.SEGUNDO_APELLIDO || 
+                             ', Dirección: ' || v_cliente.DIRECCION_CLIENTE || 
+                             ', Celular: ' || v_cliente.CELULAR);
+    END LOOP;
+END MOSTRAR_CLIENTES;
+
+
+BEGIN
+    MOSTRAR_CLIENTES;
+END;
+
+
 
 --PROCEDIMIENTOS CRUD ESPECIE
 --CREATE
@@ -407,6 +431,23 @@ BEGIN
 END;
 
 --LEER 
+CREATE OR REPLACE VIEW LEER_ESPECIE AS
+SELECT ID_ESPECIE, FAMILIA, ESPECIE
+FROM ESPECIE;
+
+CREATE OR REPLACE PROCEDURE MOSTRAR_ESPECIES
+IS 
+BEGIN
+    FOR v_especie in (SELECT * FROM LEER_ESPECIE) LOOP
+        DBMS_OUTPUT.PUT_LINE('ID: ' || v_especie.ID_ESPECIE ||
+        ', Familia: ' || v_especie.FAMILIA ||
+        ', Especie: ' || v_especie.ESPECIE);
+    END LOOP;
+END MOSTRAR_ESPECIES;
+
+BEGIN 
+    MOSTRAR_ESPECIES;
+END;
 
 --PROCEDIMIENTOS CRUD ESPECIALIDAD
 --CREATE 
@@ -468,6 +509,23 @@ BEGIN
 END;
 
 --LEER
+CREATE OR REPLACE VIEW LEER_ESPECIALIDAD AS
+SELECT ID_ESPECIALIDAD, NOMBRE_ESPECIALIDAD, DESCRIPCION_ESPECIALIDAD
+FROM ESPECIALIDAD1;
+
+CREATE OR REPLACE PROCEDURE MOSTRAR_ESPECIALIDADES
+IS
+BEGIN
+    FOR v_especialidad IN (SELECT * FROM LEER_ESPECIALIDAD) LOOP
+        DBMS_OUTPUT.PUT_LINE('ID: ' || v_especialidad.ID_ESPECIALIDAD ||  
+                             ', Nombre: ' || v_especialidad.NOMBRE_ESPECIALIDAD || 
+                             ', Descripcion: ' || v_especialidad.DESCRIPCION_ESPECIALIDAD);
+    END LOOP;
+END MOSTRAR_ESPECIALIDADES;
+
+BEGIN
+    MOSTRAR_ESPECIALIDADES;
+END;
 
 --PROCEDIMIENTOS CRUD VETERINARIO
 --CREATE 
@@ -544,6 +602,25 @@ END;
 
 
 --LEER
+CREATE OR REPLACE VIEW LEER_VETERINARIOS AS 
+SELECT ID_VETERINARIO, NOMBRE_VETERINARIO, APELLIDO_PATERNO, CODIGO_VETERINARIO, ESPECIALIDAD
+FROM VETERINARIO;
+
+CREATE OR REPLACE PROCEDURE MOSTRAR_VETERINARIOS
+IS
+BEGIN
+    FOR v_veterinario IN (SELECT * FROM LEER_VETERINARIOS) LOOP
+        DBMS_OUTPUT.PUT_LINE('ID: ' || v_veterinario.ID_VETERINARIO || 
+                             ', Nombre: ' || v_veterinario.NOMBRE_VETERINARIO || 
+                             ', Apellido: ' || v_veterinario.APELLIDO_PATERNO ||
+                             ', Codigo: ' || v_veterinario.CODIGO_VETERINARIO || 
+                             ', Especialidad: ' || v_veterinario.ESPECIALIDAD );
+    END LOOP;
+END MOSTRAR_VETERINARIOS;
+
+BEGIN 
+    MOSTRAR_VETERINARIOS;
+END;
 
 --PROCEDIMIENTOS CRUD MASCOTAS
 --CREATE
@@ -632,6 +709,26 @@ BEGIN
 END;
 
 --LEER
+CREATE OR REPLACE VIEW LEER_MASCOTAS AS 
+SELECT ID_MASCOTA, NOMBRE_MASCOTA, RAZA, PESO, ESPECIE, ID_CLIENTE
+FROM MASCOTAS;
+
+CREATE OR REPLACE PROCEDURE MOSTRAR_MASCOTAS
+IS
+BEGIN
+    FOR v_mascota IN (SELECT * FROM LEER_MASCOTAS) LOOP
+        DBMS_OUTPUT.PUT_LINE('ID: ' || v_mascota.ID_MASCOTA || 
+                             ', Nombre: ' || v_mascota.NOMBRE_MASCOTA ||
+                             ', Raza: ' || v_mascota.RAZA || 
+                             ', Peso: ' || v_mascota.PESO || 
+                             ', Especie: ' || v_mascota.ESPECIE || 
+                             ', Cliente: ' || v_mascota.ID_CLIENTE);
+    END LOOP;
+END MOSTRAR_MASCOTAS;
+
+BEGIN 
+    MOSTRAR_MASCOTAS;
+END;
 
 --PROCEDIMIENTOS CRUD PROVEEDOR
 --CREATE 
@@ -700,6 +797,23 @@ BEGIN
     ELIMINAR_PROVEEDOR(P_ID_PROVEEDOR => 2);
 END;
 --LEER
+CREATE OR REPLACE VIEW LEER_PROVEEDORES AS
+SELECT ID_PROVEEDOR, NOMBRE_PROVEEDOR, DIRECCION_PROVEEDOR
+FROM PROVEEDOR;
+
+CREATE OR REPLACE PROCEDURE MOSTRAR_PROVEEDORES
+IS
+BEGIN
+    FOR v_proveedor IN (SELECT * FROM LEER_PROVEEDORES) LOOP
+        DBMS_OUTPUT.PUT_LINE('ID: ' || v_proveedor.ID_PROVEEDOR || 
+                             ', Nombre: ' || v_proveedor.NOMBRE_PROVEEDOR ||
+                             ', Direccion: ' || v_proveedor.DIRECCION_PROVEEDOR);
+    END LOOP;
+END MOSTRAR_PROVEEDORES;
+
+BEGIN 
+    MOSTRAR_PROVEEDORES;
+END;
 
 --PROCEDIMIENTOS CRUD SERVICIO 
 --CREATE 
@@ -776,6 +890,30 @@ BEGIN
     ELIMINAR_FICHA(P_ID_FICHA_MEDICA => 2 );
 END;
 
+--LEER
+CREATE OR REPLACE VIEW LEER_FICHA AS 
+SELECT ID_FICHA_MEDICA, ID_MASCOTA, ID_VETERINARIO, MOTIVO, DIAGNOSTICO, TRATAMIENTO
+FROM FICHA_MEDICA;
+
+CREATE OR REPLACE PROCEDURE MOSTRAR_FICHAS
+IS
+BEGIN
+    FOR v_ficha IN (SELECT * FROM LEER_FICHA) LOOP
+        DBMS_OUTPUT.PUT_LINE('ID: ' || v_ficha.ID_FICHA_MEDICA || 
+                             ', Mascota: ' || v_ficha.ID_MASCOTA ||
+                             ', Veterinario: ' || v_ficha.ID_VETERINARIO ||
+                             ', Motivo: ' || v_ficha.MOTIVO ||
+                             ', Diagnostico: ' || v_ficha.DIAGNOSTICO || 
+                             ', Tratamiento: ' || v_ficha.TRATAMIENTO);
+    END LOOP;
+END MOSTRAR_FICHAS;
+
+BEGIN 
+    MOSTRAR_FICHAS;
+END;
+
+
+
 --PROCEDIMIENTOS CRUD SERVICIO 
 --CREATE 
 CREATE SEQUENCE SERVICIO_SEQ
@@ -840,6 +978,27 @@ END;
 
 BEGIN 
     ELIMINAR_SERVICIO(P_ID_SERVICIO => 3);
+END;
+
+--LEER 
+CREATE OR REPLACE VIEW LEER_SERVICIO AS
+SELECT ID_SERVICIO, NOMBRE_SERVICIO, DESCRIPCION_SERVICIO, COSTO
+FROM SERVICIO;
+
+
+CREATE OR REPLACE PROCEDURE MOSTRAR_SERVICIOS
+IS
+BEGIN
+    FOR v_servicio IN (SELECT * FROM LEER_SERVICIO) LOOP
+        DBMS_OUTPUT.PUT_LINE('ID: ' || v_servicio.ID_SERVICIO || 
+                             ', Nombre: ' || v_servicio.NOMBRE_SERVICIO ||
+                             ', Descripcion: ' || v_servicio.DESCRIPCION_SERVICIO ||
+                             ', Costo: ' || v_servicio.COSTO);
+    END LOOP;
+END MOSTRAR_SERVICIOS;
+
+BEGIN
+    MOSTRAR_SERVICIOS;
 END;
 
 --PROCEDIMIENTOS CRUD PRODUCTO
@@ -912,6 +1071,27 @@ BEGIN
     ELIMINAR_PRODUCTO(P_ID_PRODUCTO => 3);
 END;
 
+--LEER
+CREATE OR REPLACE VIEW LEER_PRODUCTO AS 
+SELECT ID_PRODUCTO, NOMBRE_PRODUCTO, DESCRIPCION_PRODUCTO, COSTO, ID_PROVEEDOR
+FROM PRODUCTO;
+
+CREATE OR REPLACE PROCEDURE MOSTRAR_PRODUCTOS
+IS
+BEGIN
+        FOR v_producto IN (SELECT * FROM LEER_PRODUCTO) LOOP
+        DBMS_OUTPUT.PUT_LINE('ID: ' || v_producto.ID_PRODUCTO || 
+                             ', Nombre: ' || v_producto.NOMBRE_PRODUCTO ||
+                             ', Descripcion: ' || v_producto.DESCRIPCION_PRODUCTO ||
+                             ', Costo: ' || v_producto.COSTO || 
+                             ', Proveedor: ' || v_producto.ID_PROVEEDOR);
+    END LOOP;
+END MOSTRAR_PRODUCTOS;
+
+BEGIN 
+    MOSTRAR_PRODUCTOS;
+END;
+
 --PROCEDIMIENTOS CRUD CITAS 
 --CREATE 
 CREATE SEQUENCE CITAS_SEQ
@@ -980,6 +1160,27 @@ END;
 
 BEGIN 
     ELIMINAR_CITAS(P_ID_CITA => 1);
+END;
+
+--LEER
+CREATE OR REPLACE VIEW LEER_CITAS AS
+SELECT ID_CITA, FECHA_CITA, ID_CLIENTE, ID_VETERINARIO, ID_MASCOTA
+FROM CITAS;
+
+CREATE OR REPLACE PROCEDURE MOSTRAR_CITAS
+IS
+BEGIN
+    FOR v_cita IN (SELECT * FROM LEER_CITAS) LOOP
+        DBMS_OUTPUT.PUT_LINE('ID: ' || v_cita.ID_CITA || 
+                             ',Fecha Cita: ' || v_cita.FECHA_CITA ||
+                             ', Cliente: ' || v_cita.ID_CLIENTE ||
+                             ', Veterinario: ' || v_cita.ID_VETERINARIO ||
+                             ', Mascota: ' || v_cita.ID_MASCOTA);
+    END LOOP;
+END MOSTRAR_CITAS;
+
+BEGIN 
+    MOSTRAR_CITAS;
 END;
 
 --FUNCIONES 
