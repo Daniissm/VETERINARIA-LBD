@@ -22,7 +22,7 @@ public class FrmEspecialidad extends javax.swing.JFrame {
     public FrmEspecialidad() {
         initComponents();
         listarEspecialidad();
-        idMax();
+        //idMax();
         setTitle("Formulario Especialidad");
         setLocationRelativeTo(null);
         setResizable(false);
@@ -30,9 +30,9 @@ public class FrmEspecialidad extends javax.swing.JFrame {
     public void listarEspecialidad(){
     ebo.listarEspecialidad(tbEspecialidad);
     }
-    public void idMax(){
-        txtIdEspecialidad.setText(ebo.getMaxID()+"");
-    }
+    //public void idMax(){
+    //    txtIdEspecialidad.setText(ebo.getMaxID()+"");
+    //}
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -227,7 +227,7 @@ public class FrmEspecialidad extends javax.swing.JFrame {
         txtIdEspecialidad.setText("");
         txtNombre.setText("");
         txtDescripcion.setText("");
-        idMax();
+       // idMax();
     }
     /**
      * @param args the command line arguments
