@@ -1,28 +1,26 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package com.especialidad.ec.bo;
 
-import com.proyecto.ec.dao.EspecialidadDAO;
+import com.proyecto.ec.dao.CitasDAO;
 import com.proyecto.ec.db.Conexion;
+import com.proyecto.ec.entity.Citas;
 import com.proyecto.ec.entity.Especialidad;
 import java.sql.Connection;
-import javax.swing.JTable;
 import java.sql.SQLException;
+import javax.swing.JTable;
 
 /**
  *
  * @author fidelitas
  */
-public class EspecialidadBO {
+public class CitasBO {
        private String mensaje = "";
-       private EspecialidadDAO edao = new EspecialidadDAO();
+       private CitasDAO edao = new CitasDAO();
        
-   public String agregarEspecialidad(Especialidad emp){
+   public String agregarCita (Citas cit){
        Connection conn = Conexion.getConnection();
        try {
-           mensaje = edao.agregarEspecialidad(conn, emp);
+           mensaje = edao.agregarCita(conn, cit);
        } catch (Exception e) {
            mensaje = mensaje + " " + e.getMessage();
        }finally{
@@ -38,10 +36,10 @@ public class EspecialidadBO {
        
    }
    
-      public String modificarEspecialidad(Especialidad emp){
+      public String modificarCita(Citas cit){
 Connection conn = Conexion.getConnection();
        try {
-           mensaje = edao.modificarEspecialidad(conn, emp);
+           mensaje = edao.modificarCita(conn, cit);
        } catch (Exception e) {
            mensaje = mensaje + " " + e.getMessage();
        }finally{
@@ -56,10 +54,10 @@ Connection conn = Conexion.getConnection();
        return mensaje;       
    }
       
-         public String eliminarEspecialidad(int id){
+         public String eliminarCita(int id){
 Connection conn = Conexion.getConnection();
        try {
-           mensaje = edao.eliminarEspecialidad(conn, id);
+           mensaje = edao.eliminarCita(conn, id);
        } catch (Exception e) {
            mensaje = mensaje + " " + e.getMessage();
        }finally{
@@ -74,9 +72,9 @@ Connection conn = Conexion.getConnection();
        return mensaje;       
    }
          
-            public void listarEspecialidad(JTable tabla){
+            public void listarCitas(JTable tabla){
                 Connection conn = Conexion.getConnection();
-                edao.listarEspecialidad(conn, tabla);
+                edao.listarCitas(conn, tabla);
                 try {
                     conn.close();
                 } catch (SQLException ex) {
@@ -85,15 +83,4 @@ Connection conn = Conexion.getConnection();
                 }
        
    } 
-    /*public int getMaxID( ){
-       Connection conn = Conexion.getConnection();
-                int id = edao.getMaxID(conn);
-                try {
-                    conn.close();
-                } catch (SQLException ex) {
-                    System.out.println(ex.getMessage());
-                    
-                }
-           return id;
-    }*/
 }
