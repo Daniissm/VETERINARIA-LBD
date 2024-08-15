@@ -1,8 +1,7 @@
 package com.especialidad.ec.bo;
 
-import com.proyecto.ec.dao.EspecialidadDAO;
+import com.proyecto.ec.dao.EspecieDAO;
 import com.proyecto.ec.db.Conexion;
-import com.proyecto.ec.entity.Especialidad;
 import com.proyecto.ec.entity.Especie;
 import java.sql.Connection;
 import javax.swing.JTable;
@@ -38,7 +37,7 @@ public class EspecieBO {
       public String modificarEspecie(Especie spe){
 Connection conn = Conexion.getConnection();
        try {
-           mensaje = edao.modificarEspecialidad(conn, spe);
+           mensaje = edao.modificarEspecie(conn, spe);
        } catch (Exception e) {
            mensaje = mensaje + " " + e.getMessage();
        }finally{
@@ -73,7 +72,7 @@ Connection conn = Conexion.getConnection();
          
             public void listarEspecie(JTable tabla){
                 Connection conn = Conexion.getConnection();
-                edao.listarEspecialidad(conn, tabla);
+                edao.listarEspecie(conn, tabla);
                 try {
                     conn.close();
                 } catch (SQLException ex) {

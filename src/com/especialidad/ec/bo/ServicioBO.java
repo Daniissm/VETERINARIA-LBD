@@ -1,20 +1,19 @@
 package com.especialidad.ec.bo;
 
 import com.proyecto.ec.db.Conexion;
-import com.proyecto.ec.entity.Mascotas;
+import com.proyecto.ec.entity.Servicio;
 import java.sql.Connection;
-import javax.swing.JTable;
 import java.sql.SQLException;
-import com.proyecto.ec.dao.MascotasDAO;
+import com.proyecto.ec.dao.ServicioDAO;
 
-public class MascotasBO {
+public class ServicioBO {
     private String mensaje = "";
-    private MascotasDAO edao = new MascotasDAO(); // Cambiado a MascotasDAO
+    private ServicioDAO edao = new ServicioDAO();
 
-    public String agregarMascotas(Mascotas mas) {
+    public String agregarServicio(Servicio ser) {
         Connection conn = Conexion.getConnection();
         try {
-            mensaje = edao.agregarMascotas(conn, mas);
+            mensaje = edao.agregarServicio(conn, ser);
         } catch (Exception e) {
             mensaje = mensaje + " " + e.getMessage();
         } finally {
@@ -29,10 +28,10 @@ public class MascotasBO {
         return mensaje;
     }
 
-    public String modificarMascotas(Mascotas mas) {
+    public String modificarServicio(Servicio ser) {
         Connection conn = Conexion.getConnection();
         try {
-            mensaje = edao.modificarMascotas(conn, mas);
+            mensaje = edao.modificarServicio(conn, ser);
         } catch (Exception e) {
             mensaje = mensaje + " " + e.getMessage();
         } finally {
@@ -47,10 +46,10 @@ public class MascotasBO {
         return mensaje;
     }
 
-    public String eliminarMascotas(int id) {
+    public String eliminarServicio(int id) {
         Connection conn = Conexion.getConnection();
         try {
-            mensaje = edao.eliminarMascotas(conn, id);
+            mensaje = edao.eliminarServicio(conn, id);
         } catch (Exception e) {
             mensaje = mensaje + " " + e.getMessage();
         } finally {
@@ -63,20 +62,5 @@ public class MascotasBO {
             }
         }
         return mensaje;
-    }
-
-   public void listarMascotas(JTable tabla) {
-        Connection conn = Conexion.getConnection();
-        try {
-            edao.listarMascotas(conn, tabla);
-        } finally {
-            try {
-                if (conn != null) {
-                    conn.close();
-                }
-            } catch (SQLException ex) {
-                System.out.println(ex.getMessage());
-            }
-        }
     }
 }
