@@ -242,8 +242,6 @@ public class FrmMascotas extends javax.swing.JFrame {
             // TODO add your handling code here:
         } else {
 
-              
-            
             Mascotas mas = new Mascotas();
             mas.setID_MASCOTA(Integer.parseInt(txtId.getText()));
             mas.setRAZA(txtRaza.getText());

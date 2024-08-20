@@ -4,7 +4,6 @@ package com.especialidad.ec.bo;
 import com.proyecto.ec.dao.CitasDAO;
 import com.proyecto.ec.db.Conexion;
 import com.proyecto.ec.entity.Citas;
-import com.proyecto.ec.entity.Especialidad;
 import java.sql.Connection;
 import java.sql.SQLException;
 import javax.swing.JTable;

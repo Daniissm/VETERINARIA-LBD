@@ -217,7 +217,7 @@ public class FrmEspecie extends javax.swing.JFrame {
             esp.setID_ESPECIE(Integer.parseInt(txtId.getText()));
             esp.setFAMILIA(txtFamilia.getText());
             esp.setESPECIE(txtEspecie.getText());
-            String mensaje = ebo.agregarEspecie(esp);
+            String mensaje = ebo.modificarEspecie(esp);
             JOptionPane.showMessageDialog(null, mensaje);
             limpiar();
             listarEspecie();

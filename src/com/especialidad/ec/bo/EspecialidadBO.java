@@ -76,7 +76,7 @@ Connection conn = Conexion.getConnection();
          
             public void listarEspecialidad(JTable tabla){
                 Connection conn = Conexion.getConnection();
-                edao.listarEspecialidad(conn, tabla);
+                edao.listarEspecialidades(conn, tabla);
                 try {
                     conn.close();
                 } catch (SQLException ex) {

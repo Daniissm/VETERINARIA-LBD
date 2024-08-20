@@ -3,6 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package com.proyecto.ec.dao;
+
 import com.proyecto.ec.entity.Clientes;
 import com.proyecto.ec.entity.Especialidad;
 import java.sql.Connection;
@@ -15,12 +16,15 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.sql.Types;
 import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author fidelitas
  */
 public class ClientesDAO {
-   public String agregarClientes(Connection con, Clientes cliente) {
+
+    public String agregarClientes(Connection con, Clientes cliente) {
         CallableStatement cst = null;
         String mensaje = "";
         String sql = "{call INSERTAR_CLIENTE(?, ?, ?, ?, ?, ?)}";
@@ -100,42 +104,59 @@ public class ClientesDAO {
         return mensaje;
     }
 
-    public void listarClientes(Connection con, JTable tabla) {
-        CallableStatement cst = null;
-        ResultSet rs = null;
-        String sql = "{call LISTAR_CLIENTES(?)}";
-        try {
-            cst = con.prepareCall(sql);
-            cst.registerOutParameter(1, Types.REF_CURSOR);
-            cst.execute();
-            rs = (ResultSet) cst.getObject(1);
-            while (rs.next()) {
-                int id = rs.getInt("ID_CLIENTE");
-                int identificacion = rs.getInt("IDENTIFICACION");
-                String nombre = rs.getString("NOMBRE_CLIENTE");
-                String primerApellido = rs.getString("PRIMER_APELLIDO");
-                String segundoApellido = rs.getString("SEGUNDO_APELLIDO");
-                String direccion = rs.getString("DIRECCION_CLIENTE");
-                int celular = rs.getInt("CELULAR");
-                System.out.println("ID: " + id + ", Identificacion: " + identificacion + ", Nombre: " + nombre + ", Primer Apellido: " + primerApellido + ", Segundo Apellido: " + segundoApellido + ", Direccion: " + direccion + ", Celular: " + celular);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            if (rs != null) {
-                try {
-                    rs.close();
-                } catch (SQLException ex) {
-                    Logger.getLogger(ClientesDAO.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
-            if (cst != null) {
-                try {
-                    cst.close();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
+  public void listarClientes(Connection con, JTable tabla) {
+    CallableStatement cst = null;
+    ResultSet rs = null;
+    String sql = "{call LISTAR_CLIENTES(?)}";
+
+    try {
+        // Preparar la llamada a la función almacenada
+        cst = con.prepareCall(sql);
+        cst.registerOutParameter(1, Types.REF_CURSOR);
+        cst.execute();
+
+        // Obtener el ResultSet del cursor
+        rs = (ResultSet) cst.getObject(1);
+
+        // Crear y configurar el modelo de la tabla
+        DefaultTableModel model = new DefaultTableModel();
+        model.setColumnIdentifiers(new String[]{"CLIENTE", "IDENTIFICACION", "NOMBRE", "1 APELLIDO", "2 APELLIDO", "DIRECCION", "CELULAR"});
+
+        // Llenar el modelo con datos del ResultSet
+        while (rs.next()) {
+            int id = rs.getInt("ID_CLIENTE");
+            int identificacion = rs.getInt("IDENTIFICACION");
+            String nombre = rs.getString("NOMBRE_CLIENTE");
+            String primerApellido = rs.getString("PRIMER_APELLIDO");
+            String segundoApellido = rs.getString("SEGUNDO_APELLIDO");
+            String direccion = rs.getString("DIRECCION_CLIENTE");
+            int celular = rs.getInt("CELULAR");
+
+            model.addRow(new Object[] {id, identificacion, nombre, primerApellido, segundoApellido, direccion, celular});
+        }
+
+        // Asignar el modelo a la tabla
+        tabla.setModel(model);
+
+    } catch (SQLException e) {
+        e.printStackTrace();
+    } finally {
+        // Cerrar recursos
+        if (rs != null) {
+            try {
+                rs.close();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
             }
         }
-    } 
+        if (cst != null) {
+            try {
+                cst.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+}
+
 }

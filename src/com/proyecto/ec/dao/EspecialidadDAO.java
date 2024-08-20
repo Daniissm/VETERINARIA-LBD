@@ -17,14 +17,14 @@ import java.sql.Types;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
-
 /**
  *
  * @author fidelitas
  */
 public class EspecialidadDAO {
+
     private String mensaje = "";
-    
+
     /*public String agregarEspecialidad (Connection con, Especialidad emp){
         PreparedStatement pst = null;
         String sql = "INSERT INTO ESPECIALIDAD (ID_ESPECIALIDAD, NOMBRE_ESPECIALIDAD, DESCRIPCION_ESPECIALIDAD" + "VALUES(ESPECIALIDAD_SEQ.NEXTVAL, ?, ?)";        return mensaje;
@@ -39,7 +39,7 @@ public class EspecialidadDAO {
             mensaje = "No se ha guardado" + e.getMessage();
         }
     }*/
-     public String agregarEspecialidad(Connection con, Especialidad emp) {
+    public String agregarEspecialidad(Connection con, Especialidad emp) {
         CallableStatement cst = null;
         String mensaje = "";
         String sql = "{call ESPECIALIDAD_PACKAGE.INSERTAR_ESPECIALIDAD(?, ?)}";
@@ -63,17 +63,18 @@ public class EspecialidadDAO {
 
         return mensaje;
     }
-     public String modificarEspecialidad(Connection con, Especialidad emp) {
+
+    public String modificarEspecialidad(Connection con, Especialidad emp) {
         CallableStatement cst = null;
         String mensaje = "";
         String sql = "{call ACTUALIZAR_ESPECIALIDAD(?, ?, ?)}";
         try {
-            cst = con.prepareCall(sql);         
+            cst = con.prepareCall(sql);
             cst.setInt(1, emp.getID_ESPECIALIDAD());
             cst.setString(2, emp.getNOMBRE_ESPECIALIDAD());
-            cst.setString(3, emp.getDESCRIPCION_ESPECIALIDAD());           
+            cst.setString(3, emp.getDESCRIPCION_ESPECIALIDAD());
             cst.execute();
-                        mensaje = "actualizado";
+            mensaje = "actualizado";
         } catch (SQLException e) {
             mensaje = "No se ha actualizado: " + e.getMessage();
         } finally {
@@ -88,7 +89,8 @@ public class EspecialidadDAO {
 
         return mensaje;
     }
-      public String eliminarEspecialidad(Connection con, int idEspecialidad) {
+
+    public String eliminarEspecialidad(Connection con, int idEspecialidad) {
         CallableStatement cst = null;
         String mensaje = "";
         String sql = "{call ESPECIALIDAD_PACKAGE.ELIMINAR_ESPECIALIDAD(?)}";
@@ -110,53 +112,46 @@ public class EspecialidadDAO {
         }
         return mensaje;
     }
-    
 
-public void listarEspecialidad(Connection con, JTable tabla) {
-    CallableStatement cst = null;
-    ResultSet rs = null;
-    String sql = "{call ESPECIALIDAD_PACKAGE.LISTAR_ESPECIALIDAD(?)}";
-    try {
-        cst = con.prepareCall(sql);
-        cst.registerOutParameter(1, Types.REF_CURSOR);
-        cst.execute();
-        
-        rs = (ResultSet) cst.getObject(1);
-        
-        DefaultTableModel model = new DefaultTableModel();
-        
-        model.addColumn("ID_ESPECIALIDAD");
-        model.addColumn("NOMBRE_ESPECIALIDAD");
-        model.addColumn("DESCRIPCION_ESPECIALIDAD");
-        
-        while (rs.next()) {
-            int id = rs.getInt("ID_ESPECIALIDAD");
-            String nombre = rs.getString("NOMBRE_ESPECIALIDAD");
-            String descripcion = rs.getString("DESCRIPCION_ESPECIALIDAD");
-            model.addRow(new Object[]{id, nombre, descripcion});
-        }
-        
-        tabla.setModel(model);
-        
-    } catch (SQLException e) {
-        e.printStackTrace();
-    } finally {
-        // Cerrar recursos
-        if (rs != null) {
-            try {
-                rs.close();
-            } catch (SQLException ex) {
-                ex.printStackTrace();
+    public void listarEspecialidades(Connection con, JTable tabla) {
+        CallableStatement cst = null;
+        ResultSet rs = null;
+        String sql = "{ ? = call LISTAR_ESPECIE }"; // Llamada a la función
+
+        try {
+            // Preparar la llamada a la función
+            cst = con.prepareCall(sql);
+            cst.registerOutParameter(1, Types.REF_CURSOR);
+            cst.execute();
+            rs = (ResultSet) cst.getObject(1);
+            DefaultTableModel model = new DefaultTableModel();
+            model.setColumnIdentifiers(new String[]{"ID ESPECIE", "FAMILIA", "ESPECIE"});
+            while (rs.next()) {
+                int id = rs.getInt("ID_ESPECIE"); // Cambiar nombre de columna
+                String familia = rs.getString("FAMILIA"); // Cambiar nombre de columna
+                String especie = rs.getString("ESPECIE"); // Cambiar nombre de columna
+                model.addRow(new Object[]{id, familia, especie});
             }
-        }
-        if (cst != null) {
-            try {
-                cst.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
+            tabla.setModel(model);
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            if (rs != null) {
+                try {
+                    rs.close();
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                }
+            }
+            if (cst != null) {
+                try {
+                    cst.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
             }
         }
     }
-}
 
 }

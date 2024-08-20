@@ -88,33 +88,37 @@ public class MascotasDAO {
         }
         return mensaje;
     }
-    public void listarMascotas(Connection con, JTable tabla) {
+   public void listarMascotas(Connection con, JTable tabla) {
     CallableStatement cst = null;
     ResultSet rs = null;
-    String sql = "{call LISTAR_MASCOTAS(?)}";  
+    String sql = "{call LISTAR_MASCOTAS(?)}"; // Cambia LISTAR_MASCOTAS por el nombre correcto de la función almacenada
+
     try {
+        // Preparar la llamada a la función almacenada
         cst = con.prepareCall(sql);
         cst.registerOutParameter(1, Types.REF_CURSOR);
         cst.execute();
-        rs = (ResultSet) cst.getObject(1);
-        DefaultTableModel model = new DefaultTableModel();
-        model.addColumn("ID_MASCOTA");
-        model.addColumn("NOMBRE_MASCOTA");
-        model.addColumn("RAZA");
-        model.addColumn("PESO");
-        model.addColumn("NOMBRE_ESPECIE");
-        model.addColumn("NOMBRE_CLIENTE");
-        while (rs.next()) {
-            int id = rs.getInt("ID_MASCOTA");
-            String nombre = rs.getString("NOMBRE_MASCOTA");
-            String raza = rs.getString("RAZA");
-            double peso = rs.getDouble("PESO");
-            String especie = rs.getString("NOMBRE_ESPECIE");
-            String cliente = rs.getString("NOMBRE_CLIENTE");
 
-            model.addRow(new Object[]{id, nombre, raza, peso, especie, cliente});
+        // Obtener el ResultSet del cursor
+        rs = (ResultSet) cst.getObject(1);
+
+        // Crear y configurar el modelo de la tabla
+        DefaultTableModel model = new DefaultTableModel();
+        model.setColumnIdentifiers(new String[]{"ID MASCOTA", "NOMBRE MASCOTA", "RAZA", "PESO", "ESPECIE", "ID CLIENTE"});
+
+        // Llenar el modelo con datos del ResultSet
+        while (rs.next()) {
+            int idMascota = rs.getInt("ID_MASCOTA");
+            String nombreMascota = rs.getString("NOMBRE_MASCOTA");
+            String raza = rs.getString("RAZA");
+            int peso = rs.getInt("PESO");
+            int especie = rs.getInt("ESPECIE");
+            int idCliente = rs.getInt("ID_CLIENTE");
+
+            model.addRow(new Object[]{idMascota, nombreMascota, raza, peso, especie, idCliente});
         }
 
+        // Asignar el modelo a la tabla
         tabla.setModel(model);
 
     } catch (SQLException e) {
@@ -137,6 +141,7 @@ public class MascotasDAO {
         }
     }
 }
+
 
 
     

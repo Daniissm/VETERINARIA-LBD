@@ -185,7 +185,7 @@ public void eliminar (){
         System.out.println(mensaje);
     }**/
 
-    EspecialidadBO ebo = new EspecialidadBO();
+  /**  EspecialidadBO ebo = new EspecialidadBO();
 Especialidad emp = new Especialidad();
 String mensaje =  "";
 
@@ -204,7 +204,7 @@ String mensaje =  "";
        test.insertar();
        //test.modificar();
         //test.eliminar();
-    }
+    }**/
 }
 
     

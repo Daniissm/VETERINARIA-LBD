@@ -12,6 +12,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.sql.Types;
 import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
 
 
 public class EspecieDAO {
@@ -89,18 +90,21 @@ public String eliminarEspecie(Connection con, int idEspecie) {
      public void listarEspecie(Connection con, JTable tabla) {
         CallableStatement cst = null;
         ResultSet rs = null;
-        String sql = "{call LISTAR_ESPECIE(?)}";
+        String sql = "{ ? = call LISTAR_ESPECIES }";
         try {
             cst = con.prepareCall(sql);
                         cst.registerOutParameter(1, Types.REF_CURSOR);
             cst.execute();
             rs = (ResultSet) cst.getObject(1);
+            DefaultTableModel model = new DefaultTableModel();
+            model.setColumnIdentifiers(new String[] {"ID_ESPECIE", "FAMILIA", "ESPECIE"});
             while (rs.next()) {
                 int id = rs.getInt("ID_ESPECIE");
                 String familia = rs.getString("FAMILIA");
                 String especie = rs.getString("ESPECIE");
-                System.out.println("ID: " + id + ", Familia: " + familia + ", Especie: " + especie);
+                model.addRow(new Object[] {id, familia, especie});
             }
+            tabla.setModel(model);
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
