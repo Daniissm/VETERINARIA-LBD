@@ -68,7 +68,34 @@ public String modificarEspecie(Connection con, Especie esp) {
 public String eliminarEspecie(Connection con, int idEspecie) {
     CallableStatement cst = null;
     String mensaje = "";
-    String sql = "{call ELIMINAR_ESPECIE(?)}"; 
+    String sql = "{ ? = call XELIMINAR_ESPECIE(?) }"; // Llamada a la función con parámetro de salida
+    
+    try {
+        cst = con.prepareCall(sql);
+        cst.registerOutParameter(1, Types.VARCHAR); 
+        cst.setInt(2, idEspecie); 
+       
+        cst.execute();
+                mensaje = cst.getString(1);
+    } catch (SQLException e) {
+        mensaje = "No se ha eliminado: " + e.getMessage();
+    } finally {
+        if (cst != null) {
+            try {
+                cst.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+    
+    return mensaje;
+}
+/**
+public String eliminarEspecie1(Connection con, int idEspecie) {
+    CallableStatement cst = null;
+    String mensaje = "";
+    String sql = "{call XELIMINAR_ESPECIE(?)}"; 
     try {
         cst = con.prepareCall(sql);
         cst.setInt(1, idEspecie);
@@ -86,7 +113,8 @@ public String eliminarEspecie(Connection con, int idEspecie) {
         }
     }
     return mensaje;
-}
+}**/
+
      public void listarEspecie(Connection con, JTable tabla) {
         CallableStatement cst = null;
         ResultSet rs = null;

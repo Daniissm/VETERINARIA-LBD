@@ -84,12 +84,14 @@ public class ClientesDAO {
     public String eliminarClientes(Connection con, int idCliente) {
         CallableStatement cst = null;
         String mensaje = "";
-        String sql = "{call ELIMINAR_CLIENTE(?)}";
+        String sql = "{ ? = call XELIMINAR_CLIENTE(?) }";
+
         try {
             cst = con.prepareCall(sql);
-            cst.setInt(1, idCliente);
+            cst.registerOutParameter(1, Types.VARCHAR);
+            cst.setInt(2, idCliente);
             cst.execute();
-            mensaje = "eliminado";
+            mensaje = cst.getString(1);
         } catch (SQLException e) {
             mensaje = "No se ha eliminado: " + e.getMessage();
         } finally {
@@ -104,59 +106,59 @@ public class ClientesDAO {
         return mensaje;
     }
 
-  public void listarClientes(Connection con, JTable tabla) {
-    CallableStatement cst = null;
-    ResultSet rs = null;
-    String sql = "{call LISTAR_CLIENTES(?)}";
+    public void listarClientes(Connection con, JTable tabla) {
+        CallableStatement cst = null;
+        ResultSet rs = null;
+        String sql = "{call LISTAR_CLIENTES(?)}";
 
-    try {
-        // Preparar la llamada a la función almacenada
-        cst = con.prepareCall(sql);
-        cst.registerOutParameter(1, Types.REF_CURSOR);
-        cst.execute();
+        try {
+            // Preparar la llamada a la función almacenada
+            cst = con.prepareCall(sql);
+            cst.registerOutParameter(1, Types.REF_CURSOR);
+            cst.execute();
 
-        // Obtener el ResultSet del cursor
-        rs = (ResultSet) cst.getObject(1);
+            // Obtener el ResultSet del cursor
+            rs = (ResultSet) cst.getObject(1);
 
-        // Crear y configurar el modelo de la tabla
-        DefaultTableModel model = new DefaultTableModel();
-        model.setColumnIdentifiers(new String[]{"CLIENTE", "IDENTIFICACION", "NOMBRE", "1 APELLIDO", "2 APELLIDO", "DIRECCION", "CELULAR"});
+            // Crear y configurar el modelo de la tabla
+            DefaultTableModel model = new DefaultTableModel();
+            model.setColumnIdentifiers(new String[]{"CLIENTE", "IDENTIFICACION", "NOMBRE", "1 APELLIDO", "2 APELLIDO", "DIRECCION", "CELULAR"});
 
-        // Llenar el modelo con datos del ResultSet
-        while (rs.next()) {
-            int id = rs.getInt("ID_CLIENTE");
-            int identificacion = rs.getInt("IDENTIFICACION");
-            String nombre = rs.getString("NOMBRE_CLIENTE");
-            String primerApellido = rs.getString("PRIMER_APELLIDO");
-            String segundoApellido = rs.getString("SEGUNDO_APELLIDO");
-            String direccion = rs.getString("DIRECCION_CLIENTE");
-            int celular = rs.getInt("CELULAR");
+            // Llenar el modelo con datos del ResultSet
+            while (rs.next()) {
+                int id = rs.getInt("ID_CLIENTE");
+                int identificacion = rs.getInt("IDENTIFICACION");
+                String nombre = rs.getString("NOMBRE_CLIENTE");
+                String primerApellido = rs.getString("PRIMER_APELLIDO");
+                String segundoApellido = rs.getString("SEGUNDO_APELLIDO");
+                String direccion = rs.getString("DIRECCION_CLIENTE");
+                int celular = rs.getInt("CELULAR");
 
-            model.addRow(new Object[] {id, identificacion, nombre, primerApellido, segundoApellido, direccion, celular});
-        }
-
-        // Asignar el modelo a la tabla
-        tabla.setModel(model);
-
-    } catch (SQLException e) {
-        e.printStackTrace();
-    } finally {
-        // Cerrar recursos
-        if (rs != null) {
-            try {
-                rs.close();
-            } catch (SQLException ex) {
-                ex.printStackTrace();
+                model.addRow(new Object[]{id, identificacion, nombre, primerApellido, segundoApellido, direccion, celular});
             }
-        }
-        if (cst != null) {
-            try {
-                cst.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
+
+            // Asignar el modelo a la tabla
+            tabla.setModel(model);
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            // Cerrar recursos
+            if (rs != null) {
+                try {
+                    rs.close();
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                }
+            }
+            if (cst != null) {
+                try {
+                    cst.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
             }
         }
     }
-}
 
 }
