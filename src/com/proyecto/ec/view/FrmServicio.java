@@ -4,31 +4,33 @@
  */
 package com.proyecto.ec.view;
 
-import com.especialidad.ec.bo.EspecieBO;
-import com.proyecto.ec.entity.Especie;
+import com.especialidad.ec.bo.ServicioBO;
+import com.proyecto.ec.entity.Servicio;
 import javax.swing.JOptionPane;
 
 /**
  *
  * @author fidelitas
  */
-public class FrmEspecie extends javax.swing.JFrame {
+public class FrmServicio extends javax.swing.JFrame {
 
-    private EspecieBO ebo = new EspecieBO();
+    ServicioBO ebo = new ServicioBO();
 
     /**
-     * Creates new form FrmEspecie
+     * Creates new form FrmServicio
      */
-    public FrmEspecie() {
+    public FrmServicio() {
         initComponents();
-        listarEspecie();
-        setTitle("Formulario Espcies");
+        listarServicios();
+        setTitle("Formulario Servicio");
         setLocationRelativeTo(null);
         setResizable(false);
     }
-    public void listarEspecie() {
-        ebo.listarEspecie(tbEspecie);
+
+    public void listarServicios() {
+        ebo.listarServicios(tbServicio);
     }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -43,16 +45,18 @@ public class FrmEspecie extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        txtFamilia = new javax.swing.JTextField();
-        txtEspecie = new javax.swing.JTextField();
+        txtNombre = new javax.swing.JTextField();
+        txtCosto = new javax.swing.JTextField();
         txtId = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
-        tbEspecie = new javax.swing.JTable();
+        tbServicio = new javax.swing.JTable();
         btnEliminar = new javax.swing.JButton();
         btnAgregar = new javax.swing.JButton();
         btnModificar = new javax.swing.JButton();
         btnSalir = new javax.swing.JButton();
         btnLimpiar = new javax.swing.JButton();
+        txtDescripcion = new javax.swing.JTextField();
+        jLabel5 = new javax.swing.JLabel();
         btnMenu = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -62,28 +66,34 @@ public class FrmEspecie extends javax.swing.JFrame {
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(51, 153, 255));
-        jLabel1.setText("ESPECIE");
-        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 0, -1, -1));
+        jLabel1.setText("SERVICIO");
+        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 0, -1, -1));
 
         jLabel2.setText("ID");
-        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 80, 20, -1));
+        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 50, 20, -1));
 
-        jLabel3.setText("FAMILIA");
-        jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 100, -1, -1));
+        jLabel3.setText("NOMBRE");
+        jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 80, -1, -1));
 
-        jLabel4.setText("ESPECIE");
-        jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 130, -1, -1));
-        jPanel1.add(txtFamilia, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 100, 130, -1));
-        jPanel1.add(txtEspecie, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 130, 250, -1));
+        jLabel4.setText("COSTO");
+        jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 140, -1, -1));
+        jPanel1.add(txtNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 80, 130, -1));
+
+        txtCosto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtCostoActionPerformed(evt);
+            }
+        });
+        jPanel1.add(txtCosto, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 140, 130, -1));
 
         txtId.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtIdActionPerformed(evt);
             }
         });
-        jPanel1.add(txtId, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 70, 130, -1));
+        jPanel1.add(txtId, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 50, 130, -1));
 
-        tbEspecie.setModel(new javax.swing.table.DefaultTableModel(
+        tbServicio.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {},
                 {},
@@ -94,14 +104,14 @@ public class FrmEspecie extends javax.swing.JFrame {
 
             }
         ));
-        tbEspecie.addMouseListener(new java.awt.event.MouseAdapter() {
+        tbServicio.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                tbEspecieMouseClicked(evt);
+                tbServicioMouseClicked(evt);
             }
         });
-        jScrollPane1.setViewportView(tbEspecie);
+        jScrollPane1.setViewportView(tbServicio);
 
-        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 180, 540, 110));
+        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 190, 540, 110));
 
         btnEliminar.setText("ELIMINAR");
         btnEliminar.addActionListener(new java.awt.event.ActionListener() {
@@ -142,6 +152,10 @@ public class FrmEspecie extends javax.swing.JFrame {
             }
         });
         jPanel1.add(btnLimpiar, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 110, 100, -1));
+        jPanel1.add(txtDescripcion, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 110, 130, -1));
+
+        jLabel5.setText("DESCRIP");
+        jPanel1.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 110, -1, -1));
 
         btnMenu.setText("MENU");
         btnMenu.addActionListener(new java.awt.event.ActionListener() {
@@ -175,57 +189,69 @@ public class FrmEspecie extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void tbEspecieMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbEspecieMouseClicked
+    private void txtIdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtIdActionPerformed
         // TODO add your handling code here:
-        int selection = tbEspecie.rowAtPoint(evt.getPoint());
-        txtId.setText(tbEspecie.getValueAt(selection, 0) + "");
-        txtFamilia.setText(tbEspecie.getValueAt(selection, 1) + "");
-        txtEspecie.setText(tbEspecie.getValueAt(selection, 2) + "");
-    }//GEN-LAST:event_tbEspecieMouseClicked
+    }//GEN-LAST:event_txtIdActionPerformed
+
+    private void tbServicioMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbServicioMouseClicked
+        // TODO add your handling code here:
+        int selection = tbServicio.rowAtPoint(evt.getPoint());
+        txtId.setText(tbServicio.getValueAt(selection, 0) + "");
+        txtNombre.setText(tbServicio.getValueAt(selection, 1) + "");
+        txtDescripcion.setText(tbServicio.getValueAt(selection, 2) + "");
+        txtCosto.setText(tbServicio.getValueAt(selection, 3) + "");
+    }//GEN-LAST:event_tbServicioMouseClicked
 
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
         // TODO add your handling code here:
-        if (txtId.getText().isEmpty() || txtFamilia.getText().isEmpty() || txtEspecie.getText().isEmpty()) {
+        if (txtId.getText().isEmpty() || txtCosto.getText().isEmpty() || txtNombre.getText().isEmpty() || txtDescripcion.getText().isEmpty() || txtDescripcion.getText().isEmpty()) {
             JOptionPane.showMessageDialog(null, "Complete los espacios");
             // TODO add your handling code here:
         } else {
-            String mensaje = ebo.eliminarEspecie(Integer.parseInt(txtId.getText()));
+            String mensaje = ebo.eliminarServicio(Integer.parseInt(txtId.getText()));
             JOptionPane.showMessageDialog(null, mensaje);
             limpiar();
-            listarEspecie();
+            listarServicios();
         }
     }//GEN-LAST:event_btnEliminarActionPerformed
 
     private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
-        if (txtId.getText().isEmpty() || txtFamilia.getText().isEmpty() || txtEspecie.getText().isEmpty()) {
+        if (txtId.getText().isEmpty() || txtCosto.getText().isEmpty() || txtNombre.getText().isEmpty() || txtDescripcion.getText().isEmpty() || txtDescripcion.getText().isEmpty()) {
             JOptionPane.showMessageDialog(null, "Complete los espacios");
             // TODO add your handling code here:
         } else {
 
-            Especie esp = new Especie();
-            esp.setFAMILIA(txtFamilia.getText());
-            esp.setESPECIE(txtEspecie.getText());
-            String mensaje = ebo.agregarEspecie(esp);
+            Servicio cli = new Servicio();
+            cli.setID_SERVICIO(Integer.parseInt(txtId.getText()));
+            cli.setNOMBRE_SERVICIO(txtNombre.getText());
+            cli.setCOSTO(Integer.parseInt(txtCosto.getText()));
+            cli.setDESCRIPCION_SERVICIO(txtDescripcion.getText());
+
+            String mensaje;
+            mensaje = ebo.agregarServicio(cli);
             JOptionPane.showMessageDialog(null, mensaje);
             limpiar();
-            listarEspecie();
+            listarServicios();
         }
     }//GEN-LAST:event_btnAgregarActionPerformed
 
     private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
         // TODO add your handling code here:
-        if (txtId.getText().isEmpty() || txtFamilia.getText().isEmpty() || txtEspecie.getText().isEmpty()) {
+        if (txtId.getText().isEmpty() || txtCosto.getText().isEmpty() || txtNombre.getText().isEmpty() || txtDescripcion.getText().isEmpty() || txtDescripcion.getText().isEmpty()) {
             JOptionPane.showMessageDialog(null, "Complete los espacios");
             // TODO add your handling code here:
         } else {
-            Especie esp = new Especie();
-            esp.setID_ESPECIE(Integer.parseInt(txtId.getText()));
-            esp.setFAMILIA(txtFamilia.getText());
-            esp.setESPECIE(txtEspecie.getText());
-            String mensaje = ebo.modificarEspecie(esp);
+
+            Servicio cli = new Servicio();
+            cli.setID_SERVICIO(Integer.parseInt(txtId.getText()));
+            cli.setNOMBRE_SERVICIO(txtNombre.getText());
+            cli.setCOSTO(Integer.parseInt(txtCosto.getText()));
+            cli.setDESCRIPCION_SERVICIO(txtDescripcion.getText());
+
+            String mensaje = ebo.modificarServicio(cli);
             JOptionPane.showMessageDialog(null, mensaje);
             limpiar();
-            listarEspecie();
+            listarServicios();
         }
     }//GEN-LAST:event_btnModificarActionPerformed
 
@@ -237,8 +263,11 @@ public class FrmEspecie extends javax.swing.JFrame {
     private void btnLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarActionPerformed
         // TODO add your handling code here:
         limpiar();
-
     }//GEN-LAST:event_btnLimpiarActionPerformed
+
+    private void txtCostoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCostoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtCostoActionPerformed
 
     private void btnMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMenuActionPerformed
         // TODO add your handling code here:
@@ -250,14 +279,12 @@ public class FrmEspecie extends javax.swing.JFrame {
         // Opcionalmente, puedes cerrar el formulario actual si es necesario
         this.dispose(); // Cierra el formulario actual
     }//GEN-LAST:event_btnMenuActionPerformed
-
-    private void txtIdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtIdActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtIdActionPerformed
     public void limpiar() {
         txtId.setText("");
-        txtFamilia.setText("");
-        txtEspecie.setText("");
+        txtNombre.setText("");
+        txtDescripcion.setText("");
+        txtCosto.setText("");
+
         // idMax();
     }
 
@@ -278,20 +305,20 @@ public class FrmEspecie extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(FrmEspecie.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FrmServicio.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(FrmEspecie.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FrmServicio.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(FrmEspecie.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FrmServicio.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(FrmEspecie.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FrmServicio.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new FrmEspecie().setVisible(true);
+                new FrmServicio().setVisible(true);
             }
         });
     }
@@ -307,11 +334,13 @@ public class FrmEspecie extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable tbEspecie;
-    private javax.swing.JTextField txtEspecie;
-    private javax.swing.JTextField txtFamilia;
+    private javax.swing.JTable tbServicio;
+    private javax.swing.JTextField txtCosto;
+    private javax.swing.JTextField txtDescripcion;
     private javax.swing.JTextField txtId;
+    private javax.swing.JTextField txtNombre;
     // End of variables declaration//GEN-END:variables
 }

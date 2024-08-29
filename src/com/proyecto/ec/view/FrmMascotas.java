@@ -13,6 +13,7 @@ import javax.swing.JOptionPane;
  * @author fidelitas
  */
 public class FrmMascotas extends javax.swing.JFrame {
+
     private MascotasBO ebo = new MascotasBO();
 
     /**
@@ -25,6 +26,7 @@ public class FrmMascotas extends javax.swing.JFrame {
         setLocationRelativeTo(null);
         setResizable(false);
     }
+
     public void listarMascotas() {
         ebo.listarMascotas(tbMascotas);
     }
@@ -60,6 +62,7 @@ public class FrmMascotas extends javax.swing.JFrame {
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
+        btnMenu = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -162,6 +165,14 @@ public class FrmMascotas extends javax.swing.JFrame {
         jLabel8.setText("NOMBRE");
         jPanel1.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 50, -1, -1));
 
+        btnMenu.setText("MENU");
+        btnMenu.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnMenuActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnMenu, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -186,16 +197,12 @@ public class FrmMascotas extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void txtIdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtIdActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtIdActionPerformed
-
     private void tbMascotasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbMascotasMouseClicked
         // TODO add your handling code here:
         int selection = tbMascotas.rowAtPoint(evt.getPoint());
         txtId.setText(tbMascotas.getValueAt(selection, 0) + "");
-        txtRaza.setText(tbMascotas.getValueAt(selection, 1) + "");
-        txtNombre.setText(tbMascotas.getValueAt(selection, 2) + "");
+        txtNombre.setText(tbMascotas.getValueAt(selection, 1) + "");
+        txtRaza.setText(tbMascotas.getValueAt(selection, 2) + "");
         txtPeso.setText(tbMascotas.getValueAt(selection, 3) + "");
         txtCliente.setText(tbMascotas.getValueAt(selection, 4) + "");
         txtEspecie.setText(tbMascotas.getValueAt(selection, 5) + "");
@@ -244,17 +251,17 @@ public class FrmMascotas extends javax.swing.JFrame {
 
             Mascotas mas = new Mascotas();
             mas.setID_MASCOTA(Integer.parseInt(txtId.getText()));
-            mas.setRAZA(txtRaza.getText());
             mas.setNOMBRE_MASCOTA(txtNombre.getText());
+            mas.setRAZA(txtRaza.getText());
             mas.setPESO(Integer.parseInt(txtPeso.getText()));
             mas.setID_CLIENTE(Integer.parseInt(txtCliente.getText()));
             mas.setESPECIE(Integer.parseInt(txtEspecie.getText()));
 
             String mensaje;
-            mensaje = ebo.agregarMascotas(mas);
+            mensaje = ebo.modificarMascotas(mas);
             JOptionPane.showMessageDialog(null, mensaje);
             limpiar();
-            //listarEspecialidad();
+            listarMascotas();
         }
     }//GEN-LAST:event_btnModificarActionPerformed
 
@@ -267,16 +274,32 @@ public class FrmMascotas extends javax.swing.JFrame {
         // TODO add your handling code here:
         limpiar();
     }//GEN-LAST:event_btnLimpiarActionPerformed
-  public void limpiar() {
+
+    private void btnMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMenuActionPerformed
+        // TODO add your handling code here:
+        FrmMenu frmMenu = new FrmMenu();
+
+        // Configurar la ventana de FrmMenu para que sea visible
+        frmMenu.setVisible(true);
+
+        // Opcionalmente, puedes cerrar el formulario actual si es necesario
+        this.dispose(); // Cierra el formulario actual
+    }//GEN-LAST:event_btnMenuActionPerformed
+
+    private void txtIdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtIdActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtIdActionPerformed
+    public void limpiar() {
         txtId.setText("");
         txtNombre.setText("");
         txtPeso.setText("");
         txtRaza.setText("");
         txtCliente.setText("");
         txtEspecie.setText("");
-        
+
         // idMax();
     }
+
     /**
      * @param args the command line arguments
      */
@@ -317,6 +340,7 @@ public class FrmMascotas extends javax.swing.JFrame {
     private javax.swing.JButton btnAgregar;
     private javax.swing.JButton btnEliminar;
     private javax.swing.JButton btnLimpiar;
+    private javax.swing.JButton btnMenu;
     private javax.swing.JButton btnModificar;
     private javax.swing.JButton btnSalir;
     private javax.swing.JLabel jLabel1;

@@ -25,32 +25,18 @@ public class EspecialidadDAO {
 
     private String mensaje = "";
 
-    /*public String agregarEspecialidad (Connection con, Especialidad emp){
-        PreparedStatement pst = null;
-        String sql = "INSERT INTO ESPECIALIDAD (ID_ESPECIALIDAD, NOMBRE_ESPECIALIDAD, DESCRIPCION_ESPECIALIDAD" + "VALUES(ESPECIALIDAD_SEQ.NEXTVAL, ?, ?)";        return mensaje;
-        try {
-            pst = con.PreparedStatement(sql);
-            pst.setString(1, emp.getNOMBRE_ESPECIALIDAD());
-            pst.setString(2, emp.getDESCRIPCION_ESPECIALIDAD());
-            mensaje = "guardado";
-            pst.execute();
-            pst.close();
-        } catch (SQLException e) {
-            mensaje = "No se ha guardado" + e.getMessage();
-        }
-    }*/
     public String agregarEspecialidad(Connection con, Especialidad emp) {
         CallableStatement cst = null;
         String mensaje = "";
-        String sql = "{call ESPECIALIDAD_PACKAGE.INSERTAR_ESPECIALIDAD(?, ?)}";
+        String sql = "{call PACKAGE_ESPECIALIDAD.INSERTAR_ESPECIALIDAD_C(?, ?)}";
         try {
             cst = con.prepareCall(sql);
             cst.setString(1, emp.getNOMBRE_ESPECIALIDAD());
             cst.setString(2, emp.getDESCRIPCION_ESPECIALIDAD());
             cst.execute();
-            mensaje = "guardado";
+            mensaje = "ESPECIALIDAD AGREGADA";
         } catch (SQLException e) {
-            mensaje = "No se ha guardado: " + e.getMessage();
+            mensaje = "ERROR AL AGREGAR " + e.getMessage();
         } finally {
             if (cst != null) {
                 try {
@@ -67,16 +53,15 @@ public class EspecialidadDAO {
     public String modificarEspecialidad(Connection con, Especialidad emp) {
         CallableStatement cst = null;
         String mensaje = "";
-        String sql = "{call ACTUALIZAR_ESPECIALIDAD(?, ?, ?)}";
+        String sql = "{call PACKAGE_ESPECIALIDAD.ACTUALIZAR_ESPECIALIDAD(?, ?, ?)}";
         try {
             cst = con.prepareCall(sql);
-            cst.setInt(1, emp.getID_ESPECIALIDAD());
-            cst.setString(2, emp.getNOMBRE_ESPECIALIDAD());
-            cst.setString(3, emp.getDESCRIPCION_ESPECIALIDAD());
+            cst.setString(1, emp.getNOMBRE_ESPECIALIDAD());
+            cst.setString(2, emp.getDESCRIPCION_ESPECIALIDAD());
             cst.execute();
-            mensaje = "actualizado";
+            mensaje = "ESPECIALIDAD MODIFICADA";
         } catch (SQLException e) {
-            mensaje = "No se ha actualizado: " + e.getMessage();
+            mensaje = "ERROR AL MODIFICAR: " + e.getMessage();
         } finally {
             if (cst != null) {
                 try {
@@ -90,17 +75,30 @@ public class EspecialidadDAO {
         return mensaje;
     }
 
+ 
     public String eliminarEspecialidad(Connection con, int idEspecialidad) {
         CallableStatement cst = null;
         String mensaje = "";
-        String sql = "{call ESPECIALIDAD_PACKAGE.ELIMINAR_ESPECIALIDAD(?)}";
+        String sql = "{ ? = call PACKAGE_ESPECIALIDAD.XELIMINAR_ESPECIALIDAD(?) }"; // Asegúrate de que el número y tipo de parámetros son correctos
+
         try {
+            // Preparar el CallableStatement
             cst = con.prepareCall(sql);
-            cst.setInt(1, idEspecialidad);
+            
+            // Registrar el parámetro de salida
+            cst.registerOutParameter(1, java.sql.Types.VARCHAR);
+            
+            // Establecer el parámetro de entrada
+            cst.setInt(2, idEspecialidad);
+
+            // Ejecutar la llamada
             cst.execute();
-            mensaje = "eliminado";
+            
+            // Obtener el mensaje de la función
+            mensaje = cst.getString(1);
+            
         } catch (SQLException e) {
-            mensaje = "No se ha eliminado: " + e.getMessage();
+            mensaje = "ERROR AL ELIMINAR: " + e.getMessage();
         } finally {
             if (cst != null) {
                 try {
@@ -112,11 +110,13 @@ public class EspecialidadDAO {
         }
         return mensaje;
     }
+
+
 
     public void listarEspecialidades(Connection con, JTable tabla) {
         CallableStatement cst = null;
         ResultSet rs = null;
-        String sql = "{ ? = call LISTAR_ESPECIE }"; // Llamada a la función
+        String sql = "{ ? = call PACKAGE_ESPECIALIDAD.LISTAR_ESPECIALIDADES }"; // Llamada a la función
 
         try {
             // Preparar la llamada a la función
@@ -125,12 +125,12 @@ public class EspecialidadDAO {
             cst.execute();
             rs = (ResultSet) cst.getObject(1);
             DefaultTableModel model = new DefaultTableModel();
-            model.setColumnIdentifiers(new String[]{"ID ESPECIE", "FAMILIA", "ESPECIE"});
+            model.setColumnIdentifiers(new String[]{"ID ESPECIE", "NOMBRE", "DESCRIPCION"});
             while (rs.next()) {
-                int id = rs.getInt("ID_ESPECIE"); // Cambiar nombre de columna
-                String familia = rs.getString("FAMILIA"); // Cambiar nombre de columna
-                String especie = rs.getString("ESPECIE"); // Cambiar nombre de columna
-                model.addRow(new Object[]{id, familia, especie});
+                int id = rs.getInt("ID_ESPECIALIDAD"); // Cambiar nombre de columna
+                String nombre = rs.getString("NOMBRE_ESPECIALIDAD"); // Cambiar nombre de columna
+                String descripcion = rs.getString("DESCRIPCION_ESPECIALIDAD"); // Cambiar nombre de columna
+                model.addRow(new Object[]{id, nombre, descripcion});
             }
             tabla.setModel(model);
 
@@ -153,5 +153,22 @@ public class EspecialidadDAO {
             }
         }
     }
-
+ public int getMaxID(Connection con) {
+        int id = 0;
+        PreparedStatement pst = null;
+        ResultSet rs = null;
+        try {
+            pst = con.prepareStatement("SELECT MAX(ID_CITA)+1 as id FROM CITAS");
+            rs = pst.executeQuery();
+            if (rs.next()) {
+                id = rs.getInt(1);
+            }
+            rs.close();
+            pst.close();
+            
+        } catch (SQLException e) {
+            System.out.println("Error" + e.getMessage());
+        }
+        return id;
+    }
 }

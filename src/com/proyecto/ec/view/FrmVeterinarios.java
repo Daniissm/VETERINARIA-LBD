@@ -4,31 +4,33 @@
  */
 package com.proyecto.ec.view;
 
-import com.especialidad.ec.bo.EspecieBO;
-import com.proyecto.ec.entity.Especie;
+import com.especialidad.ec.bo.VeterinarioBO;
+import com.proyecto.ec.entity.Veterinario;
 import javax.swing.JOptionPane;
 
 /**
  *
  * @author fidelitas
  */
-public class FrmEspecie extends javax.swing.JFrame {
+public class FrmVeterinarios extends javax.swing.JFrame {
 
-    private EspecieBO ebo = new EspecieBO();
+    VeterinarioBO ebo = new VeterinarioBO();
 
     /**
-     * Creates new form FrmEspecie
+     * Creates new form FrmVeterinarios
      */
-    public FrmEspecie() {
+    public FrmVeterinarios() {
         initComponents();
-        listarEspecie();
-        setTitle("Formulario Espcies");
+        listarVeterinarios();
+        setTitle("Formulario Veterinarios");
         setLocationRelativeTo(null);
         setResizable(false);
     }
-    public void listarEspecie() {
-        ebo.listarEspecie(tbEspecie);
+
+    public void listarVeterinarios() {
+        ebo.listarVeterinarios(tbVeterinarios);
     }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -43,16 +45,20 @@ public class FrmEspecie extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        txtFamilia = new javax.swing.JTextField();
-        txtEspecie = new javax.swing.JTextField();
+        txtApellido = new javax.swing.JTextField();
+        txtEspecialidad = new javax.swing.JTextField();
         txtId = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
-        tbEspecie = new javax.swing.JTable();
+        tbVeterinarios = new javax.swing.JTable();
         btnEliminar = new javax.swing.JButton();
         btnAgregar = new javax.swing.JButton();
         btnModificar = new javax.swing.JButton();
         btnSalir = new javax.swing.JButton();
         btnLimpiar = new javax.swing.JButton();
+        txtNombre = new javax.swing.JTextField();
+        txtCodigo = new javax.swing.JTextField();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel8 = new javax.swing.JLabel();
         btnMenu = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -62,28 +68,28 @@ public class FrmEspecie extends javax.swing.JFrame {
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(51, 153, 255));
-        jLabel1.setText("ESPECIE");
-        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 0, -1, -1));
+        jLabel1.setText("VETERINARIOS");
+        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 0, -1, -1));
 
         jLabel2.setText("ID");
-        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 80, 20, -1));
+        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 50, 20, -1));
 
-        jLabel3.setText("FAMILIA");
-        jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 100, -1, -1));
+        jLabel3.setText("APELLIDO");
+        jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 80, -1, -1));
 
-        jLabel4.setText("ESPECIE");
-        jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 130, -1, -1));
-        jPanel1.add(txtFamilia, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 100, 130, -1));
-        jPanel1.add(txtEspecie, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 130, 250, -1));
+        jLabel4.setText("ESPECIALID");
+        jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 140, -1, -1));
+        jPanel1.add(txtApellido, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 80, 130, -1));
+        jPanel1.add(txtEspecialidad, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 140, 130, -1));
 
         txtId.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtIdActionPerformed(evt);
             }
         });
-        jPanel1.add(txtId, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 70, 130, -1));
+        jPanel1.add(txtId, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 50, 130, -1));
 
-        tbEspecie.setModel(new javax.swing.table.DefaultTableModel(
+        tbVeterinarios.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {},
                 {},
@@ -94,14 +100,14 @@ public class FrmEspecie extends javax.swing.JFrame {
 
             }
         ));
-        tbEspecie.addMouseListener(new java.awt.event.MouseAdapter() {
+        tbVeterinarios.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                tbEspecieMouseClicked(evt);
+                tbVeterinariosMouseClicked(evt);
             }
         });
-        jScrollPane1.setViewportView(tbEspecie);
+        jScrollPane1.setViewportView(tbVeterinarios);
 
-        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 180, 540, 110));
+        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 190, 540, 110));
 
         btnEliminar.setText("ELIMINAR");
         btnEliminar.addActionListener(new java.awt.event.ActionListener() {
@@ -142,6 +148,14 @@ public class FrmEspecie extends javax.swing.JFrame {
             }
         });
         jPanel1.add(btnLimpiar, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 110, 100, -1));
+        jPanel1.add(txtNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 50, 130, -1));
+        jPanel1.add(txtCodigo, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 110, 130, -1));
+
+        jLabel5.setText("CODIGO");
+        jPanel1.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 110, -1, -1));
+
+        jLabel8.setText("NOMBRE");
+        jPanel1.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 50, -1, -1));
 
         btnMenu.setText("MENU");
         btnMenu.addActionListener(new java.awt.event.ActionListener() {
@@ -175,57 +189,74 @@ public class FrmEspecie extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void tbEspecieMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbEspecieMouseClicked
+    private void txtIdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtIdActionPerformed
         // TODO add your handling code here:
-        int selection = tbEspecie.rowAtPoint(evt.getPoint());
-        txtId.setText(tbEspecie.getValueAt(selection, 0) + "");
-        txtFamilia.setText(tbEspecie.getValueAt(selection, 1) + "");
-        txtEspecie.setText(tbEspecie.getValueAt(selection, 2) + "");
-    }//GEN-LAST:event_tbEspecieMouseClicked
+    }//GEN-LAST:event_txtIdActionPerformed
+
+    private void tbVeterinariosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbVeterinariosMouseClicked
+        // TODO add your handling code here:
+        int selection = tbVeterinarios.rowAtPoint(evt.getPoint());
+        txtId.setText(tbVeterinarios.getValueAt(selection, 0) + "");
+        txtNombre.setText(tbVeterinarios.getValueAt(selection, 1) + "");
+        txtApellido.setText(tbVeterinarios.getValueAt(selection, 2) + "");
+
+        txtCodigo.setText(tbVeterinarios.getValueAt(selection, 3) + "");
+        txtEspecialidad.setText(tbVeterinarios.getValueAt(selection, 4) + "");
+
+    }//GEN-LAST:event_tbVeterinariosMouseClicked
 
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
         // TODO add your handling code here:
-        if (txtId.getText().isEmpty() || txtFamilia.getText().isEmpty() || txtEspecie.getText().isEmpty()) {
+        if (txtId.getText().isEmpty() || txtEspecialidad.getText().isEmpty() || txtNombre.getText().isEmpty() || txtCodigo.getText().isEmpty() || txtApellido.getText().isEmpty()) {
             JOptionPane.showMessageDialog(null, "Complete los espacios");
             // TODO add your handling code here:
         } else {
-            String mensaje = ebo.eliminarEspecie(Integer.parseInt(txtId.getText()));
+            String mensaje = ebo.eliminarVeterinario(Integer.parseInt(txtId.getText()));
             JOptionPane.showMessageDialog(null, mensaje);
             limpiar();
-            listarEspecie();
+            listarVeterinarios();
         }
     }//GEN-LAST:event_btnEliminarActionPerformed
 
     private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
-        if (txtId.getText().isEmpty() || txtFamilia.getText().isEmpty() || txtEspecie.getText().isEmpty()) {
+        if (txtId.getText().isEmpty() || txtEspecialidad.getText().isEmpty() || txtNombre.getText().isEmpty() || txtCodigo.getText().isEmpty() || txtApellido.getText().isEmpty()) {
             JOptionPane.showMessageDialog(null, "Complete los espacios");
             // TODO add your handling code here:
         } else {
 
-            Especie esp = new Especie();
-            esp.setFAMILIA(txtFamilia.getText());
-            esp.setESPECIE(txtEspecie.getText());
-            String mensaje = ebo.agregarEspecie(esp);
+            Veterinario cli = new Veterinario();
+            cli.setID_VETERINARIO(Integer.parseInt(txtId.getText()));
+            cli.setNOMBRE_VETERINARIO(txtNombre.getText());
+            cli.setCODIGO_VETERINARIO(Integer.parseInt(txtCodigo.getText()));
+            cli.setESPECIALDIAD(Integer.parseInt(txtEspecialidad.getText()));
+            cli.setAPELLIDO_PATERNO(txtApellido.getText());
+
+            String mensaje;
+            mensaje = ebo.agregarVeterinario(cli);
             JOptionPane.showMessageDialog(null, mensaje);
             limpiar();
-            listarEspecie();
+            listarVeterinarios();
         }
     }//GEN-LAST:event_btnAgregarActionPerformed
 
     private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
         // TODO add your handling code here:
-        if (txtId.getText().isEmpty() || txtFamilia.getText().isEmpty() || txtEspecie.getText().isEmpty()) {
+        if (txtId.getText().isEmpty() || txtEspecialidad.getText().isEmpty() || txtNombre.getText().isEmpty() || txtCodigo.getText().isEmpty() || txtApellido.getText().isEmpty()) {
             JOptionPane.showMessageDialog(null, "Complete los espacios");
             // TODO add your handling code here:
         } else {
-            Especie esp = new Especie();
-            esp.setID_ESPECIE(Integer.parseInt(txtId.getText()));
-            esp.setFAMILIA(txtFamilia.getText());
-            esp.setESPECIE(txtEspecie.getText());
-            String mensaje = ebo.modificarEspecie(esp);
+
+            Veterinario cli = new Veterinario();
+            cli.setID_VETERINARIO(Integer.parseInt(txtId.getText()));
+            cli.setNOMBRE_VETERINARIO(txtNombre.getText());
+            cli.setCODIGO_VETERINARIO(Integer.parseInt(txtCodigo.getText()));
+            cli.setESPECIALDIAD(Integer.parseInt(txtEspecialidad.getText()));
+            cli.setAPELLIDO_PATERNO(txtApellido.getText());
+
+            String mensaje = ebo.modificarVeterinario(cli);
             JOptionPane.showMessageDialog(null, mensaje);
             limpiar();
-            listarEspecie();
+            listarVeterinarios();
         }
     }//GEN-LAST:event_btnModificarActionPerformed
 
@@ -237,7 +268,6 @@ public class FrmEspecie extends javax.swing.JFrame {
     private void btnLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarActionPerformed
         // TODO add your handling code here:
         limpiar();
-
     }//GEN-LAST:event_btnLimpiarActionPerformed
 
     private void btnMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMenuActionPerformed
@@ -250,14 +280,13 @@ public class FrmEspecie extends javax.swing.JFrame {
         // Opcionalmente, puedes cerrar el formulario actual si es necesario
         this.dispose(); // Cierra el formulario actual
     }//GEN-LAST:event_btnMenuActionPerformed
-
-    private void txtIdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtIdActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtIdActionPerformed
     public void limpiar() {
         txtId.setText("");
-        txtFamilia.setText("");
-        txtEspecie.setText("");
+        txtNombre.setText("");
+        txtApellido.setText("");
+        txtCodigo.setText("");
+        txtEspecialidad.setText("");
+
         // idMax();
     }
 
@@ -278,20 +307,20 @@ public class FrmEspecie extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(FrmEspecie.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FrmVeterinarios.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(FrmEspecie.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FrmVeterinarios.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(FrmEspecie.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FrmVeterinarios.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(FrmEspecie.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FrmVeterinarios.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new FrmEspecie().setVisible(true);
+                new FrmVeterinarios().setVisible(true);
             }
         });
     }
@@ -307,11 +336,15 @@ public class FrmEspecie extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable tbEspecie;
-    private javax.swing.JTextField txtEspecie;
-    private javax.swing.JTextField txtFamilia;
+    private javax.swing.JTable tbVeterinarios;
+    private javax.swing.JTextField txtApellido;
+    private javax.swing.JTextField txtCodigo;
+    private javax.swing.JTextField txtEspecialidad;
     private javax.swing.JTextField txtId;
+    private javax.swing.JTextField txtNombre;
     // End of variables declaration//GEN-END:variables
 }

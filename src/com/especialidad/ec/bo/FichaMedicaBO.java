@@ -64,11 +64,10 @@ public class FichaMedicaBO {
         }
         return mensaje;
     }
-/**
-    public void listarFichaMedica(JTable tabla) {
+ public void listarFichaMedica(JTable tabla) {
         Connection conn = Conexion.getConnection();
         try {
-            edao.listarFichaMedica(conn, tabla);
+            edao.listarFichasMedicas(conn, tabla);
         } finally {
             try {
                 if (conn != null) {
@@ -78,5 +77,16 @@ public class FichaMedicaBO {
                 System.out.println(ex.getMessage());
             }
         }
-    }**/
+    }
+ public int getMaxID (){
+         Connection conn = Conexion.getConnection();
+                int id = edao.getMaxID(conn);
+                try {
+                    conn.close();
+                } catch (SQLException ex) {
+                    System.out.println(ex.getMessage());
+                    
+                }
+                return id;
+       }
 }

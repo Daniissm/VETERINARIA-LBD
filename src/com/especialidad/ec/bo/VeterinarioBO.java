@@ -65,7 +65,7 @@ public class VeterinarioBO {
         return mensaje;
     }
 
-    /**public void listarVeterinarios(JTable tabla) {
+    public void listarVeterinarios(JTable tabla) {
         Connection conn = Conexion.getConnection();
         try {
             edao.listarVeterinarios(conn, tabla);
@@ -78,6 +78,17 @@ public class VeterinarioBO {
                 System.out.println(ex.getMessage());
             }
         }
-    }**/
+    }
+    public int getMaxID (){
+         Connection conn = Conexion.getConnection();
+                int id = edao.getMaxID(conn);
+                try {
+                    conn.close();
+                } catch (SQLException ex) {
+                    System.out.println(ex.getMessage());
+                    
+                }
+                return id;
+       }
 }
 

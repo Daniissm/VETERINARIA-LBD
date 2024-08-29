@@ -1,20 +1,30 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
 package com.especialidad.ec.bo;
 
+import com.proyecto.ec.dao.ProveedoresDAO;
+import com.proyecto.ec.dao.ServicioDAO;
 import com.proyecto.ec.db.Conexion;
-import com.proyecto.ec.entity.Producto;
+import com.proyecto.ec.entity.Proveedores;
+import com.proyecto.ec.entity.Servicio;
 import java.sql.Connection;
-import javax.swing.JTable;
 import java.sql.SQLException;
-import com.proyecto.ec.dao.ProductoDAO;
+import javax.swing.JTable;
 
-public class ProductoBO {
+/**
+ *
+ * @author fidelitas
+ */
+public class ProveedoresBO {
     private String mensaje = "";
-    private ProductoDAO edao = new ProductoDAO();
+    private ProveedoresDAO edao = new ProveedoresDAO();
 
-    public String agregarProducto(Producto prod) {
+    public String agregarProveedor(Proveedores ser) {
         Connection conn = Conexion.getConnection();
         try {
-            mensaje = edao.agregarProducto(conn, prod);
+            mensaje = edao.agregarProveedor(conn, ser);
         } catch (Exception e) {
             mensaje = mensaje + " " + e.getMessage();
         } finally {
@@ -29,10 +39,10 @@ public class ProductoBO {
         return mensaje;
     }
 
-    public String modificarProducto(Producto prod) {
+    public String modificarProveedor(Proveedores ser) {
         Connection conn = Conexion.getConnection();
         try {
-            mensaje = edao.modificarProducto(conn, prod);
+            mensaje = edao.modificarProveedor(conn, ser);
         } catch (Exception e) {
             mensaje = mensaje + " " + e.getMessage();
         } finally {
@@ -47,10 +57,10 @@ public class ProductoBO {
         return mensaje;
     }
 
-    public String eliminarProducto(int id) {
+    public String eliminarProveedor(int id) {
         Connection conn = Conexion.getConnection();
         try {
-            mensaje = edao.eliminarProducto(conn, id);
+            mensaje = edao.eliminarProveedor(conn, id);
         } catch (Exception e) {
             mensaje = mensaje + " " + e.getMessage();
         } finally {
@@ -64,11 +74,10 @@ public class ProductoBO {
         }
         return mensaje;
     }
-
-    public void listarProductos(JTable tabla) {
+    public void listarProveedor(JTable tabla) {
         Connection conn = Conexion.getConnection();
         try {
-            edao.listarProductos(conn, tabla);
+            edao.listarProveedores(conn, tabla);
         } finally {
             try {
                 if (conn != null) {
@@ -79,15 +88,5 @@ public class ProductoBO {
             }
         }
     }
-    public int getMaxID (){
-         Connection conn = Conexion.getConnection();
-                int id = edao.getMaxID(conn);
-                try {
-                    conn.close();
-                } catch (SQLException ex) {
-                    System.out.println(ex.getMessage());
-                    
-                }
-                return id;
-       }
+   
 }

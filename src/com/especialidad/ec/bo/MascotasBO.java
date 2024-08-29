@@ -79,4 +79,15 @@ public class MascotasBO {
             }
         }
     }
+   public int getMaxID (){
+         Connection conn = Conexion.getConnection();
+                int id = edao.getMaxID(conn);
+                try {
+                    conn.close();
+                } catch (SQLException ex) {
+                    System.out.println(ex.getMessage());
+                    
+                }
+                return id;
+       }
 }

@@ -3,6 +3,7 @@ package com.proyecto.ec.dao;
 import com.proyecto.ec.entity.Mascotas;
 import java.sql.Connection;
 import java.sql.CallableStatement;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Types;
@@ -14,7 +15,7 @@ public class MascotasDAO {
     public String agregarMascotas(Connection con, Mascotas mas) {
         CallableStatement cst = null;
         String mensaje = "";
-        String sql = "{call INSERTAR_MASCOTA(?, ?, ?, ?, ?)}"; // Asegúrate de que este procedimiento almacenado existe y tiene la firma correcta.
+        String sql = "{call PACKAGE_MASCOTA.INSERTAR_MASCOTA(?, ?, ?, ?, ?)}"; // Asegúrate de que este procedimiento almacenado existe y tiene la firma correcta.
         try {
             cst = con.prepareCall(sql);
             cst.setString(1, mas.getNOMBRE_MASCOTA());
@@ -23,9 +24,9 @@ public class MascotasDAO {
             cst.setInt(4, mas.getESPECIE());
             cst.setInt(5, mas.getID_CLIENTE());
             cst.execute();
-            mensaje = "guardado";
+            mensaje = "MASCOTA AGREGADA";
         } catch (SQLException e) {
-            mensaje = "No se ha guardado: " + e.getMessage();
+            mensaje = "ERROR AL AGREGAR: " + e.getMessage();
         } finally {
             if (cst != null) {
                 try {
@@ -41,7 +42,7 @@ public class MascotasDAO {
     public String modificarMascotas(Connection con, Mascotas mas) {
         CallableStatement cst = null;
         String mensaje = "";
-        String sql = "{call ACTUALIZAR_MASCOTA(?, ?, ?, ?, ?, ?)}"; // Asegúrate de que este procedimiento almacenado existe y tiene la firma correcta.
+        String sql = "{call PACKAGE_MASCOTA.ACTUALIZAR_MASCOTA(?, ?, ?, ?, ?, ?)}"; // Asegúrate de que este procedimiento almacenado existe y tiene la firma correcta.
         try {
             cst = con.prepareCall(sql);
             cst.setInt(1, mas.getID_MASCOTA());
@@ -51,9 +52,9 @@ public class MascotasDAO {
             cst.setInt(5, mas.getESPECIE());
             cst.setInt(6, mas.getID_CLIENTE());
             cst.execute();
-            mensaje = "actualizado";
+            mensaje = "MASCOTA ACTUALIZADA";
         } catch (SQLException e) {
-            mensaje = "No se ha actualizado: " + e.getMessage();
+            mensaje = "ERROR AL ACTUALIZAR: " + e.getMessage();
         } finally {
             if (cst != null) {
                 try {
@@ -66,17 +67,19 @@ public class MascotasDAO {
         return mensaje;
     }
 
-     public String eliminarMascotas(Connection con, int id) {
+    public String eliminarMascotas(Connection con, int id) {
         CallableStatement cst = null;
         String mensaje = "";
-        String sql = "{call ELIMINAR_MASCOTA(?)}"; 
+        String sql = "{ ? = call PACKAGE_MASCOTA.XELIMINAR_MASCOTA(?) }"; // Asegúrate de que el número y tipo de parámetros son correctos
+
         try {
             cst = con.prepareCall(sql);
-            cst.setInt(1, id);
+            cst.registerOutParameter(1, java.sql.Types.VARCHAR);
+            cst.setInt(2, id);
             cst.execute();
-            mensaje = "Eliminado";
+            mensaje = cst.getString(1);
         } catch (SQLException e) {
-            mensaje = "No se ha eliminado: " + e.getMessage();
+            mensaje = "ERROR: " + e.getMessage();
         } finally {
             if (cst != null) {
                 try {
@@ -86,13 +89,12 @@ public class MascotasDAO {
                 }
             }
         }
-
         return mensaje;
     }
    public void listarMascotas(Connection con, JTable tabla) {
     CallableStatement cst = null;
     ResultSet rs = null;
-    String sql = "{call LISTAR_MASCOTAS(?)}";
+    String sql = "{? = call PACKAGE_MASCOTA.LISTAR_MASCOTA}";
 
     try {
         cst = con.prepareCall(sql);
@@ -133,7 +135,24 @@ public class MascotasDAO {
     }
 }
 
-
+ public int getMaxID(Connection con) {
+        int id = 0;
+        PreparedStatement pst = null;
+        ResultSet rs = null;
+        try {
+            pst = con.prepareStatement("SELECT MAX(ID_CITA)+1 as id FROM CITAS");
+            rs = pst.executeQuery();
+            if (rs.next()) {
+                id = rs.getInt(1);
+            }
+            rs.close();
+            pst.close();
+            
+        } catch (SQLException e) {
+            System.out.println("Error" + e.getMessage());
+        }
+        return id;
+    }
 
     
 }

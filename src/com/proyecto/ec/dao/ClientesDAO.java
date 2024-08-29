@@ -27,7 +27,7 @@ public class ClientesDAO {
     public String agregarClientes(Connection con, Clientes cliente) {
         CallableStatement cst = null;
         String mensaje = "";
-        String sql = "{call INSERTAR_CLIENTE(?, ?, ?, ?, ?, ?)}";
+        String sql = "{call PACKAGE_CLIENTES.INSERTAR_CLIENTE(?, ?, ?, ?, ?, ?)}";
         try {
             cst = con.prepareCall(sql);
             cst.setInt(1, cliente.getIDENTIFICACION());
@@ -37,9 +37,9 @@ public class ClientesDAO {
             cst.setString(5, cliente.getDIRECCION_CLIENTE());
             cst.setInt(6, cliente.getCELULAR());
             cst.execute();
-            mensaje = "guardado";
+            mensaje = "CLIENTE REGISTRADO";
         } catch (SQLException e) {
-            mensaje = "No se ha guardado: " + e.getMessage();
+            mensaje = "ERRRO AL REGISTRAR " + e.getMessage();
         } finally {
             if (cst != null) {
                 try {
@@ -55,7 +55,7 @@ public class ClientesDAO {
     public String modificarClientes(Connection con, Clientes cliente) {
         CallableStatement cst = null;
         String mensaje = "";
-        String sql = "{call ACTUALIZAR_CLIENTE(?, ?, ?, ?, ?, ?, ?)}";
+        String sql = "{call PACKAGE_CLIENTES.ACTUALIZAR_CLIENTE(?, ?, ?, ?, ?, ?, ?)}";
         try {
             cst = con.prepareCall(sql);
             cst.setInt(1, cliente.getID_CLIENTE());
@@ -66,9 +66,9 @@ public class ClientesDAO {
             cst.setString(6, cliente.getDIRECCION_CLIENTE());
             cst.setInt(7, cliente.getCELULAR());
             cst.execute();
-            mensaje = "actualizado";
+            mensaje = "ACTUALIZADO CORRECTAMENTE";
         } catch (SQLException e) {
-            mensaje = "No se ha actualizado: " + e.getMessage();
+            mensaje = "ERROR AL ACTUALIZAR" + e.getMessage();
         } finally {
             if (cst != null) {
                 try {
@@ -84,7 +84,7 @@ public class ClientesDAO {
     public String eliminarClientes(Connection con, int idCliente) {
         CallableStatement cst = null;
         String mensaje = "";
-        String sql = "{ ? = call XELIMINAR_CLIENTE(?) }";
+        String sql = "{ ? = call PACKAGE_CLIENTES.XELIMINAR_CLIENTE(?) }";
 
         try {
             cst = con.prepareCall(sql);
@@ -93,7 +93,7 @@ public class ClientesDAO {
             cst.execute();
             mensaje = cst.getString(1);
         } catch (SQLException e) {
-            mensaje = "No se ha eliminado: " + e.getMessage();
+            mensaje = "ERROR AL ELIMINAR " + e.getMessage();
         } finally {
             if (cst != null) {
                 try {
@@ -109,22 +109,15 @@ public class ClientesDAO {
     public void listarClientes(Connection con, JTable tabla) {
         CallableStatement cst = null;
         ResultSet rs = null;
-        String sql = "{call LISTAR_CLIENTES(?)}";
+        String sql = "{? = call PACKAGE_CLIENTES.LISTAR_CLIENTE}";
 
         try {
-            // Preparar la llamada a la función almacenada
             cst = con.prepareCall(sql);
             cst.registerOutParameter(1, Types.REF_CURSOR);
             cst.execute();
-
-            // Obtener el ResultSet del cursor
             rs = (ResultSet) cst.getObject(1);
-
-            // Crear y configurar el modelo de la tabla
             DefaultTableModel model = new DefaultTableModel();
             model.setColumnIdentifiers(new String[]{"CLIENTE", "IDENTIFICACION", "NOMBRE", "1 APELLIDO", "2 APELLIDO", "DIRECCION", "CELULAR"});
-
-            // Llenar el modelo con datos del ResultSet
             while (rs.next()) {
                 int id = rs.getInt("ID_CLIENTE");
                 int identificacion = rs.getInt("IDENTIFICACION");
@@ -137,13 +130,11 @@ public class ClientesDAO {
                 model.addRow(new Object[]{id, identificacion, nombre, primerApellido, segundoApellido, direccion, celular});
             }
 
-            // Asignar el modelo a la tabla
             tabla.setModel(model);
 
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            // Cerrar recursos
             if (rs != null) {
                 try {
                     rs.close();
@@ -160,5 +151,22 @@ public class ClientesDAO {
             }
         }
     }
-
+ public int getMaxID(Connection con) {
+        int id = 0;
+        PreparedStatement pst = null;
+        ResultSet rs = null;
+        try {
+            pst = con.prepareStatement("SELECT MAX(ID_CITA)+1 as id FROM CITAS");
+            rs = pst.executeQuery();
+            if (rs.next()) {
+                id = rs.getInt(1);
+            }
+            rs.close();
+            pst.close();
+            
+        } catch (SQLException e) {
+            System.out.println("Error" + e.getMessage());
+        }
+        return id;
+    }
 }

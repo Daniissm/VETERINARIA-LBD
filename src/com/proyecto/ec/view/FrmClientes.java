@@ -64,6 +64,7 @@ public class FrmClientes extends javax.swing.JFrame {
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
+        btnMenu = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -169,6 +170,14 @@ public class FrmClientes extends javax.swing.JFrame {
         jLabel8.setText("NOMBRE");
         jPanel1.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 50, -1, -1));
 
+        btnMenu.setText("MENU");
+        btnMenu.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnMenuActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnMenu, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -193,14 +202,10 @@ public class FrmClientes extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void txtIdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtIdActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtIdActionPerformed
-
     private void tbClientesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbClientesMouseClicked
         // TODO add your handling code here:
         int selection = tbClientes.rowAtPoint(evt.getPoint());
-        txtId.setText(tbClientes.getValueAt(selection, 0) + "");
+                txtId.setText(tbClientes.getValueAt(selection, 0)+"");
         txtIdentificacion.setText(tbClientes.getValueAt(selection, 1) + "");
         txtNombre.setText(tbClientes.getValueAt(selection, 2) + "");
         txtPrimerApellido.setText(tbClientes.getValueAt(selection, 3) + "");
@@ -216,7 +221,7 @@ public class FrmClientes extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Complete los espacios");
             // TODO add your handling code here:
         } else {
-            String mensaje = ebo.eliminarClientes(Integer.parseInt(txtId.getText()));
+            String mensaje = ebo.eliminarClientes(Integer.parseInt(txtIdentificacion.getText()));
             JOptionPane.showMessageDialog(null, mensaje);
             limpiar();
             listarClientes();
@@ -231,6 +236,7 @@ public class FrmClientes extends javax.swing.JFrame {
 
             Clientes cli = new Clientes();
             cli.setIDENTIFICACION(Integer.parseInt(txtIdentificacion.getText()));
+
             cli.setNOMBRE_CLIENTE(txtNombre.getText());
             cli.setPRIMER_APELLIDO(txtPrimerApellido.getText());
             cli.setSEGUNDO_APELLIDO(txtSegundoApellido.getText());
@@ -253,7 +259,6 @@ public class FrmClientes extends javax.swing.JFrame {
         } else {
 
             Clientes cli = new Clientes();
-            cli.setIDENTIFICACION(Integer.parseInt(txtIdentificacion.getText()));
             cli.setNOMBRE_CLIENTE(txtNombre.getText());
             cli.setPRIMER_APELLIDO(txtPrimerApellido.getText());
             cli.setSEGUNDO_APELLIDO(txtSegundoApellido.getText());
@@ -275,17 +280,30 @@ public class FrmClientes extends javax.swing.JFrame {
         // TODO add your handling code here:
         limpiar();
     }//GEN-LAST:event_btnLimpiarActionPerformed
-    public void limpiar(){
-    txtId.setText("");
-    txtIdentificacion.setText("");
-    txtNombre.setText("");
-    txtPrimerApellido.setText("");
-    txtSegundoApellido.setText("");
-    txtDireccion.setText("");
-    txtCelular.setText("");
 
-    
+    private void btnMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMenuActionPerformed
+        // TODO add your handling code here:
+        FrmMenu frmMenu = new FrmMenu();
+
+        // Configurar la ventana de FrmMenu para que sea visible
+        frmMenu.setVisible(true);
+
+        // Opcionalmente, puedes cerrar el formulario actual si es necesario
+        this.dispose(); // Cierra el formulario actual
+    }//GEN-LAST:event_btnMenuActionPerformed
+
+    private void txtIdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtIdActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtIdActionPerformed
+    public void limpiar() {
+        txtIdentificacion.setText("");
+        txtNombre.setText("");
+        txtPrimerApellido.setText("");
+        txtSegundoApellido.setText("");
+        txtDireccion.setText("");
+        txtCelular.setText("");
     }
+
     /**
      * @param args the command line arguments
      */
@@ -326,6 +344,7 @@ public class FrmClientes extends javax.swing.JFrame {
     private javax.swing.JButton btnAgregar;
     private javax.swing.JButton btnEliminar;
     private javax.swing.JButton btnLimpiar;
+    private javax.swing.JButton btnMenu;
     private javax.swing.JButton btnModificar;
     private javax.swing.JButton btnSalir;
     private javax.swing.JLabel jLabel1;
